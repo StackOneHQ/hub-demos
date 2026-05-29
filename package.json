@@ -1,0 +1,14 @@
+{
+    "name": "stackone-hub-demos",
+    "private": true,
+    "version": "0.0.0",
+    "description": "Public showcase of @stackone/hub web-component across five frontend stacks. Deployed to Vercel.",
+    "type": "module",
+    "scripts": {
+        "build": "node scripts/build-all.mjs",
+        "clean": "rm -rf dist */dist */node_modules"
+    },
+    "engines": {
+        "node": ">=20"
+    }
+}

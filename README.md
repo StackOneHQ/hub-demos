@@ -1,0 +1,79 @@
+# stackone-hub-demos
+
+Public showcase of `@stackone/hub` mounted as a web component across five frontend stacks. Single Vercel deployment, one URL per demo under path-based routing.
+
+| Stack | Path | Notes |
+|---|---|---|
+| Vanilla HTML | `/vanilla/` | Loads `webcomponent.js` from unpkg, no build |
+| Vue 3 | `/vue/` | Vite, `isCustomElement` |
+| Svelte 5 | `/svelte/` | Vite, no config needed |
+| React 19 | `/react/` | Vite, uses the web component (not the React export) |
+| Angular 18 | `/angular/` | Standalone component + `CUSTOM_ELEMENTS_SCHEMA` |
+
+All five consume `@stackone/hub` from npm — there is no `file:../..` link to a local hub checkout.
+
+## Token flow
+
+Paste-only. Mint a connect-session token out of band (curl / Postman / server-side) and paste it into the input on the demo page. The token is persisted to `localStorage` under `stackone-hub-token`. There is no in-browser auto-fetch — `POST /connect_sessions` only works against `localhost`, which a public deploy can't satisfy.
+
+## Develop a single demo
+
+Each demo subfolder is its own self-contained project. Pick one:
+
+```bash
+cd vue && npm install && npm run dev      # http://localhost:5173/vue/
+cd svelte && npm install && npm run dev   # http://localhost:5173/svelte/
+cd react && npm install && npm run dev    # http://localhost:5173/react/
+cd angular && npm install && npm start    # http://localhost:4200/angular/
+cd vanilla && npx serve .                 # http://localhost:3000/
+```
+
+## Build everything (what Vercel runs)
+
+From the repo root:
+
+```bash
+npm install
+npm run build
+```
+
+This invokes `scripts/build-all.mjs`, which:
+
+1. For each Vite/Angular demo: `npm install && npm run build` inside that folder.
+2. Copies each demo's build output into `dist/<name>/`.
+3. Copies the landing `index.html` into `dist/index.html`.
+
+The final `dist/` is what Vercel serves.
+
+## Deploy to Vercel
+
+1. Push this repo to GitHub.
+2. Vercel → Add New Project → import the repo.
+3. Accept the defaults — `vercel.json` already declares everything (build command, output directory, install command).
+4. Click Deploy.
+
+Output URL shape:
+
+```
+https://<your-project>.vercel.app/
+https://<your-project>.vercel.app/vanilla/
+https://<your-project>.vercel.app/vue/
+https://<your-project>.vercel.app/svelte/
+https://<your-project>.vercel.app/react/
+https://<your-project>.vercel.app/angular/
+```
+
+## Bumping the hub version
+
+The published-package pin lives in each demo's `package.json` (and in `vanilla/index.html` as a CDN URL). To upgrade across the board:
+
+```bash
+# Vite/Angular demos
+for d in vue svelte react angular; do
+  (cd "$d" && npm install @stackone/hub@latest)
+done
+
+# Vanilla — edit the unpkg URL in vanilla/index.html
+```
+
+Commit, push, Vercel redeploys.

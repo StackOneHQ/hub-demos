@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>stackone-hub — framework demos</title>
+        <style>
+            * { box-sizing: border-box; }
+            body {
+                font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+                max-width: 880px;
+                margin: 48px auto;
+                padding: 0 24px;
+                color: #1a1a1a;
+                line-height: 1.5;
+            }
+            header { margin-bottom: 32px; }
+            h1 { margin: 0 0 8px; font-size: 28px; }
+            header p { margin: 0; color: #555; font-size: 15px; }
+            header p code { background: #f3f3f3; padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 16px;
+                margin: 32px 0;
+            }
+            a.card {
+                display: block;
+                padding: 20px;
+                border: 1px solid #e0e0e0;
+                border-radius: 10px;
+                text-decoration: none;
+                color: inherit;
+                background: #fff;
+                transition: border-color 120ms, box-shadow 120ms, transform 120ms;
+            }
+            a.card:hover {
+                border-color: #1a1a1a;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+                transform: translateY(-1px);
+            }
+            a.card h2 { margin: 0 0 4px; font-size: 17px; }
+            a.card p { margin: 0; color: #666; font-size: 13px; }
+            footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #eee; font-size: 13px; color: #777; }
+            footer a { color: #555; }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>stackone-hub — framework demos</h1>
+            <p>
+                The <code>&lt;stackone-hub&gt;</code> web component running across five frontend
+                stacks. Paste a connect-session token in any demo to drive it.
+            </p>
+        </header>
+
+        <div class="grid">
+            <a class="card" href="./vanilla/">
+                <h2>Vanilla HTML</h2>
+                <p>Plain <code>&lt;script src&gt;</code> from a CDN. No bundler.</p>
+            </a>
+            <a class="card" href="./vue/">
+                <h2>Vue 3</h2>
+                <p>Vite + <code>isCustomElement</code>.</p>
+            </a>
+            <a class="card" href="./svelte/">
+                <h2>Svelte 5</h2>
+                <p>Vite. Custom elements work out of the box.</p>
+            </a>
+            <a class="card" href="./react/">
+                <h2>React 19</h2>
+                <p>Vite. Mounts the web component, not the React export.</p>
+            </a>
+            <a class="card" href="./angular/">
+                <h2>Angular 18</h2>
+                <p>Standalone component + <code>CUSTOM_ELEMENTS_SCHEMA</code>.</p>
+            </a>
+        </div>
+
+        <footer>
+            Source: <a href="https://github.com/StackOne-HQ/hub">stackone/hub</a> &middot; package
+            <code>@stackone/hub</code> on npm.
+        </footer>
+    </body>
+</html>
