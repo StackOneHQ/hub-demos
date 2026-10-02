@@ -12,6 +12,17 @@ Public showcase of `@stackone/hub` mounted as a web component across five fronte
 
 All five consume `@stackone/hub` from npm — there is no `file:../..` link to a local hub checkout.
 
+<details>
+<summary>Preview the demos</summary>
+
+Captured from the local build with Hub 1.11.4. The Angular connection uses the synthetic browser-test fixture, with no real credentials or provider account.
+
+![Demo directory](docs/screenshots/demo-directory.png)
+
+![Angular connection success and event log](docs/screenshots/angular-connection.png)
+
+</details>
+
 ## Token flow
 
 Paste-only. Mint a connect-session token out of band (curl / Postman / server-side) and paste it into the input on the demo page. The token is persisted to `localStorage` under `stackone-hub-token`. There is no in-browser auto-fetch — `POST /connect_sessions` only works against `localhost`, which a public deploy can't satisfy.
