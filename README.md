@@ -25,10 +25,10 @@ Use Node.js 24.21.0 (`nvm use`) and npm 12.2.0. Install the matching npm version
 Each demo subfolder is its own self-contained project. Pick one:
 
 ```bash
-cd vue && npm ci && npm run dev      # http://localhost:5173/vue/
-cd svelte && npm ci && npm run dev   # http://localhost:5173/svelte/
-cd react && npm ci && npm run dev    # http://localhost:5173/react/
-cd angular && npm ci && npm start    # http://localhost:4200/angular/
+cd vue && npm ci --include=dev && npm run dev      # http://localhost:5173/vue/
+cd svelte && npm ci --include=dev && npm run dev   # http://localhost:5173/svelte/
+cd react && npm ci --include=dev && npm run dev    # http://localhost:5173/react/
+cd angular && npm ci --include=dev && npm start    # http://localhost:4200/angular/
 cd vanilla && npx serve .                 # http://localhost:3000/
 ```
 
@@ -37,13 +37,13 @@ cd vanilla && npx serve .                 # http://localhost:3000/
 From the repo root:
 
 ```bash
-npm ci
+npm ci --include=dev
 npm run build
 ```
 
 This invokes `scripts/build-all.mjs`, which:
 
-1. For each Vite/Angular demo: `npm ci && npm run build` inside that folder.
+1. For each Vite/Angular demo: `npm ci --include=dev && npm run build` inside that folder.
 2. Copies each demo's build output into `dist/<name>/`.
 3. Copies the landing `index.html` into `dist/index.html`.
 
@@ -51,12 +51,14 @@ The final `dist/` is what Vercel serves.
 
 ## Verify the demos
 
-After building, install the test browsers and run the browser suite:
+Install the test browsers and run the browser suite:
 
 ```bash
 npx playwright install
 npm test
 ```
+
+`npm test` rebuilds every demo before running the browser checks. Installs explicitly include build tools even when `NODE_ENV=production`.
 
 The suite exercises each built demo in Chromium, Firefox, and WebKit: empty and rejected tokens, theme changes, persisted inputs, API-key connections, OAuth completion and cancellation, and success/close events. It loads the real Hub package with a synthetic API and refuses unexpected external requests. The vanilla CDN request uses the installed package bytes during tests; no real credentials or provider accounts are used. Live provider authentication needs a separate check with a disposable connect-session token.
 

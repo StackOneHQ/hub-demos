@@ -46,7 +46,7 @@ for (const demo of demos) {
     }
 
     console.log(`\n— ${demo.name} (${demo.kind})`);
-    run('npm ci --no-audit --no-fund', demoDir);
+    run('npm ci --include=dev --no-audit --no-fund', demoDir);
     run('npm run build', demoDir);
 
     const srcOut =
