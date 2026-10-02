@@ -1,16 +1,4 @@
 #!/usr/bin/env node
-// Build every demo and assemble dist/ in the layout Vercel will serve.
-//
-//   dist/
-//   ├── index.html                  ← landing page (copied from repo root)
-//   ├── vanilla/                    ← raw HTML/JS/CSS (no build step)
-//   ├── vue/                        ← vue/dist/*
-//   ├── svelte/                     ← svelte/dist/*
-//   ├── react/                      ← react/dist/*
-//   └── angular/                    ← angular/dist/<project>/browser/*
-//
-// Each demo is built in isolation: `npm install` + `npm run build` inside its
-// own folder. Failures abort the whole build so Vercel surfaces them clearly.
 
 import { execSync } from 'node:child_process';
 import { cpSync, existsSync, mkdirSync, rmSync } from 'node:fs';
@@ -58,7 +46,7 @@ for (const demo of demos) {
     }
 
     console.log(`\n— ${demo.name} (${demo.kind})`);
-    run('npm install --no-audit --no-fund', demoDir);
+    run('npm ci --no-audit --no-fund', demoDir);
     run('npm run build', demoDir);
 
     const srcOut =

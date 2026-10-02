@@ -1,12 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-    AfterViewInit,
-    CUSTOM_ELEMENTS_SCHEMA,
-    Component,
-    ElementRef,
-    OnDestroy,
-    ViewChild,
-} from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 const TOKEN_KEY = 'stackone-hub-token';
@@ -26,7 +19,7 @@ interface LogEntry {
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     template: `
         <header>
-            <h1>stackone-hub — Angular 18</h1>
+            <h1>stackone-hub — Angular 22</h1>
             <p>
                 Standalone component + <code>CUSTOM_ELEMENTS_SCHEMA</code>.
                 <a href="../">← back to demos</a>
@@ -54,12 +47,13 @@ interface LogEntry {
         </section>
 
         <stackone-hub
-            #hub
             [attr.token]="token || null"
             [attr.base-url]="baseUrl"
             mode="integration-picker"
             height="600px"
             [attr.theme]="theme"
+            (success)="onSuccess($event)"
+            (close)="onClose()"
         ></stackone-hub>
 
         <section class="events">
@@ -91,15 +85,13 @@ interface LogEntry {
         `,
     ],
 })
-export class AppComponent implements AfterViewInit, OnDestroy {
-    @ViewChild('hub') hubRef?: ElementRef<HTMLElement>;
-
+export class AppComponent {
     token = localStorage.getItem(TOKEN_KEY) ?? '';
     baseUrl = localStorage.getItem(BASE_URL_KEY) ?? DEFAULT_BASE_URL;
     theme: 'light' | 'dark' = 'light';
     events: LogEntry[] = [];
 
-    private onSuccess = (event: Event) => {
+    onSuccess(event: Event) {
         this.events = [
             {
                 at: new Date().toLocaleTimeString(),
@@ -108,25 +100,10 @@ export class AppComponent implements AfterViewInit, OnDestroy {
             },
             ...this.events,
         ];
-    };
-    private onClose = () => {
-        this.events = [{ at: new Date().toLocaleTimeString(), label: 'close' }, ...this.events];
-    };
-
-    ngAfterViewInit() {
-        const el = this.hubRef?.nativeElement;
-        if (el) {
-            el.addEventListener('success', this.onSuccess);
-            el.addEventListener('close', this.onClose);
-        }
     }
 
-    ngOnDestroy() {
-        const el = this.hubRef?.nativeElement;
-        if (el) {
-            el.removeEventListener('success', this.onSuccess);
-            el.removeEventListener('close', this.onClose);
-        }
+    onClose() {
+        this.events = [{ at: new Date().toLocaleTimeString(), label: 'close' }, ...this.events];
     }
 
     persistToken() {
