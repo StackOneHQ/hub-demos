@@ -8,3 +8,5 @@ dist/
 *.log
 .env
 .env.local
+test-results/
+playwright-report/
