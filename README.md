@@ -29,7 +29,7 @@ Paste-only. Mint a connect-session token out of band (curl / Postman / server-si
 
 ## Requirements
 
-Use Node.js 24.21.0 (`nvm use`) and npm 12.2.0. Install the matching npm version with `npm install --global npm@12.2.0`.
+Use Node.js 24.22.1 (`nvm use`) and npm 12.2.0. Install the matching npm version with `npm install --global npm@12.2.0`.
 
 ## Develop a single demo
 
